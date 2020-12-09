@@ -24,10 +24,7 @@ private fun part2(): Int {
 }
 
 private fun validate(passwd: Password): Boolean {
-    if ((passwd.str[passwd.val1 - 1] == passwd.char && passwd.str[passwd.val2 - 1] != passwd.char) ||
-        (passwd.str[passwd.val1 - 1] != passwd.char && passwd.str[passwd.val2 - 1] == passwd.char)
-    ) return true
-    return false
+    return (passwd.str[passwd.val1 - 1] == passwd.char).xor(passwd.str[passwd.val2 - 1] == passwd.char)
 }
 
 private fun countOccurrences(s: String, ch: Char): Int {
