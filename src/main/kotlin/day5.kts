@@ -3,41 +3,31 @@ import kotlin.math.abs
 import kotlin.math.pow
 
 val input = readFile("day5.txt")
+val seatSet = buildSeatSet()
 
-fun calculateSeatId(it: String): Int {
-    var row = 0.0
-    var col = 0.0
-    for (i in 0..6) {
-        if (it[i] == 'B') row += 2.0.pow(abs(i - 6))
+// F, L = 0, B, R = 1
+fun buildSeatSet(): Set<Int> {
+    val seatSet = mutableSetOf<Int>()
+    input.forEach {
+        var row = 0.0
+        var col = 0.0
+        for (i in 0..6) {
+            if (it[i] == 'B') row += 2.0.pow(abs(i - 6))
+        }
+        for (i in 7..9) {
+            if (it[i] == 'R') col += 2.0.pow(abs(i - 9))
+        }
+        seatSet.add((row * 8 + col).toInt())
     }
-    for (i in 7..9) {
-        if (it[i] == 'R') col += 2.0.pow(abs(i - 9))
-    }
-    return (row * 8 + col).toInt()
+    return seatSet
 }
 
 fun part1(): Int {
-    var highest = 0
-    // F, L = 0, B, R = 1
-    input.forEach {
-        val seatId = calculateSeatId(it)
-        if (seatId > highest) highest = seatId
-    }
-    return highest
+    return seatSet.maxOrNull()!!
 }
 
-fun part2(): Int {
-    val seatList = mutableListOf<Int>()
-    // F, L = 0, B, R = 1
-    input.forEach {
-        seatList.add(calculateSeatId(it))
-    }
-    val sortedList = seatList.sorted()
-    for (i in 0..sortedList.size - 2) {
-        if (sortedList[i] + 1 != sortedList[i + 1]) return sortedList[i] + 1
-    }
-    return -1
-}
+fun part2() = (seatSet.minOrNull()!!..seatSet.maxOrNull()!!).first { !seatSet.contains(it) }
+
 
 println("Part 1: ${part1()}")
 println("Part 2: ${part2()}")
