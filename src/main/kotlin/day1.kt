@@ -16,6 +16,25 @@ private fun part1(): Int {
     return -1
 }
 
+private fun part1Optimized(): Int {
+    // a + b = 2020
+    // a = 2020 - b
+    val input = readFile("day1.txt").map { it.toInt() }
+    // for each number, subtract form 2020 and then search the list for that value
+    val seenBefore = mutableSetOf<Int>()
+    for (i in input) {
+        val target = 2020 - i
+        // target + i = 2020
+        if (seenBefore.contains(target)) {
+            return i * target
+        }
+        seenBefore.add(i)
+
+    }
+    return -1
+}
+
+
 private fun part2(): Int {
     // a + b + c = 2020
     // b + c = 2020 - a
@@ -39,5 +58,6 @@ private fun part2(): Int {
 fun main() {
     println("Day 1")
     println("Part 1: ${part1()}")
+    println("Part 1 modified: ${part1Optimized()}")
     println("Part 2: ${part2()}")
 }
